@@ -1,37 +1,21 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-
-        int left = 0;
-        int right = 0;
-        int maxfreq = 0;
-        int maxlen = 0;
-
-        int hash[26] = {0};
-
-        while(right < s.size())
+        map<char,int>count;
+        int left=0;
+        int maxfreq=0;
+        int ans=0;
+        for(int right=0;right<s.size();right++)
         {
-            hash[s[right]-'A']++;
-            maxfreq = max(maxfreq, hash[s[right]-'A']);
-
-            while((right-left+1)-maxfreq > k)
+            count[s[right]]++;
+            maxfreq=max(maxfreq,count[s[right]]);
+            while((right-left+1)-maxfreq>k)
             {
-                hash[s[left]-'A']--;
-
-                maxfreq = 0;
-                for(int i=0;i<26;i++)
-                {
-                    maxfreq = max(maxfreq, hash[i]);
-                }
-
+                count[s[left]]--;
                 left++;
             }
-
-            maxlen = max(maxlen, right-left+1);
-
-            right++;
+            ans=max(ans,right-left+1);
         }
-
-        return maxlen;
+        return ans;
     }
 };
