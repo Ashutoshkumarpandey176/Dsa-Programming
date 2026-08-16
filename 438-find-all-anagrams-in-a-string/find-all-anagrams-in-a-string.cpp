@@ -1,31 +1,32 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        int low = 0;
-        vector<int> ans;
-        if (p.size() > s.size()) return ans;
-
-        vector<int> pCount(26, 0), sCount(26, 0);
-
-        for (int i = 0; i < p.size(); i++) {
-            pCount[p[i] - 'a']++;
-            sCount[s[i] - 'a']++;
+        vector<int>count1(26,0);
+        vector<int>count2(26,0);
+        vector<int>ans;
+        int left=0;
+        if(p.size() >s.size())
+        {
+            return ans;
         }
-
-        while (low + p.size() <= s.size()) {
-
-            if (pCount == sCount) {
-                ans.push_back(low);
-            }
-
-            if (low + p.size() < s.size()) {
-                sCount[s[low] - 'a']--;
-                sCount[s[low + p.size()] - 'a']++;
-            }
-
-            low++;
+        for(int i=0;i<p.size();i++)
+        {
+             count1[s[i]-'a']++;
+             count2[p[i]-'a']++;
         }
-
+        while (left <= s.size() - p.size())
+        {
+            if(count1==count2)
+            {
+                ans.push_back(left);
+            }
+            if(left+p.size()< s.size())
+            {
+                count1[s[left]-'a']--;
+                count1[s[p.size()+left]-'a']++;
+            }
+            left++;
+        }
         return ans;
     }
 };
