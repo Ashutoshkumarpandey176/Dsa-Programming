@@ -1,40 +1,29 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, int idx, int target, vector<int>& dp)
+    int dp[1001];
+    int solve(vector<int>& nums, int target)
     {
-        int n = nums.size();
-
-       if(target == 0)
+        if(target == 0)
         {
             return 1;
         }
-
-        if(idx >= n)
-        {
-            return 0;
-        }
-
         if(dp[target] != -1)
         {
             return dp[target];
         }
-
-        int take = 0;
-
-        if(nums[idx] <= target)
+        int ans = 0;
+        for(int i = 0; i < nums.size(); i++)
         {
-            take = solve(nums, 0, target - nums[idx], dp);
+            if(nums[i] <= target)
+            {
+                ans += solve(nums, target - nums[i]);
+            }
         }
-
-        int nottake = solve(nums, idx + 1, target, dp);
-
-        return dp[target] = take + nottake;
+        return dp[target] = ans;
     }
-
     int combinationSum4(vector<int>& nums, int target)
     {
-        vector<int> dp(target + 1, -1);
-
-        return solve(nums, 0, target, dp);
+        memset(dp, -1, sizeof(dp));
+        return solve(nums, target);
     }
 };
