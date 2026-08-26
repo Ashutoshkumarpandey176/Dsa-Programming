@@ -1,6 +1,7 @@
 class Solution {
 public:
-    bool solve(string s, unordered_set<string>& wordDict, int idx, vector<int>& dp)
+   int dp[1001];
+    bool solve(string s, unordered_set<string>& wordDict, int idx)
     {
         if(idx == s.size())
         {
@@ -18,7 +19,7 @@ public:
 
             if(wordDict.find(temp) != wordDict.end())
             {
-                if(solve(s, wordDict, i + 1, dp))
+                if(solve(s, wordDict, i + 1))
                 {
                     return dp[idx] = true;
                 }
@@ -32,8 +33,8 @@ public:
     {
         unordered_set<string> words(wordDict.begin(), wordDict.end());
 
-        vector<int> dp(s.size(), -1);
+        memset(dp,-1,sizeof(dp));
 
-        return solve(s, words, 0, dp);
+        return solve(s, words, 0);
     }
 };
