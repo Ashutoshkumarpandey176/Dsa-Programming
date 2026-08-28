@@ -1,37 +1,34 @@
 class Solution {
 public:
+    typedef long long ll;
     int n;
     long long dp[100001][2];
-    long long solve(vector<int>& nums, int idx, int sign)
+    ll solve(int idx,vector<int>&nums,bool flag)
     {
-        if(idx == n)
+        if(idx>=n)
+        {
             return 0;
-        
-        if(dp[idx][sign] != LLONG_MIN)
-            return dp[idx][sign];
+        }
+        if(dp[idx][flag]!=-1)
+        {
+            return dp[idx][flag];
+        }
+        ll skip = solve(idx+1,nums,flag);
 
-        long long take;
+        ll val=nums[idx];
 
-        if(sign == 1)
-            take = nums[idx] + solve(nums, idx + 1, 0);
-        else
-            take = -nums[idx] + solve(nums, idx + 1, 1);
+        if(flag==false)
+        {
+            val=-val;
+        }
+        ll take=solve(idx+1,nums,!flag)+val;
 
-        long long nottake = solve(nums, idx + 1, sign);
-
-        return dp[idx][sign] = max(take, nottake);
+        return dp[idx][flag]=max(skip,take);
     }
-
     long long maxAlternatingSum(vector<int>& nums)
     {
-        n = nums.size();
-
-        for(int i = 0; i < n; i++)
-        {
-            dp[i][0] = LLONG_MIN;
-            dp[i][1] = LLONG_MIN;
-        }
-
-        return solve(nums, 0, 1);
+        n=nums.size();
+        memset(dp,-1,sizeof(dp));
+        return solve(0,nums,true);
     }
 };
