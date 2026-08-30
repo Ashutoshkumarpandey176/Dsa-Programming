@@ -12,16 +12,16 @@ void countprovinces(unordered_map<int, vector<int>>& adj,vector<bool>& visited,i
     int findCircleNum(vector<vector<int>>& isConnected) {
         unordered_map<int, vector<int>> adj;
        int n = isConnected.size();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (isConnected[i][j] == 1 && i != j) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (isConnected[i-1][j-1] == 1 && i != j) {
                     adj[i].push_back(j);
                 }
             }
         }
 
-        vector<bool> visited(n, false);
-        for (int i = 0; i <n; i++) {
+        vector<bool> visited(n+1, false);
+        for (int i = 1; i <=n; i++) {
             if (!visited[i]) {
                 count++;
                 countprovinces(adj, visited, i);
