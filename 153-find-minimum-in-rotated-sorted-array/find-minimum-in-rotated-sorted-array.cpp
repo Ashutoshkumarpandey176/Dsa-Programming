@@ -1,22 +1,7 @@
 class Solution {
 public:
 
-    int left(vector<int>& nums, int n, int low, int high)
-    {
-        int min = nums[low];
-
-        while (low <= high)
-        {
-            if (nums[low] < min)
-                min = nums[low];
-
-            low++;
-        }
-
-        return min;
-    }
-
-    int right(vector<int>& nums, int n, int low, int high)
+    int minfind(vector<int>& nums, int n, int low, int high)
     {
         int min = nums[low];
 
@@ -43,9 +28,9 @@ public:
 
         int mid = low + (high - low) / 2;
 
-        int leftmostmid = left(nums, n, 0, mid);
+        int leftmostmid = minfind(nums, n, 0, mid);
 
-        int rightmostmid = right(nums, n, mid + 1, high);
+        int rightmostmid = minfind(nums, n, mid + 1, high);
 
         return min(leftmostmid, rightmostmid);
     }
