@@ -1,67 +1,47 @@
 class Solution {
 public:
     int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
-        int low = 0;
-        int high = 0;
-        vector<int> ans;
+        int n=customers.size();
 
-        while (low != grumpy.size() && high != customers.size())
+        int maxun_satisfy_coust=0;//in any winow max consticative unsatisfy window min
+
+        //This is the only first window ans;
+        int currUnsat=0;
+        for(int i=0;i<minutes;i++)
         {
-            if (grumpy[low] == 0)
+            if(grumpy[i]==1)
             {
-                ans.push_back(customers[low]);
+                currUnsat+=customers[i];
+            }
+        }
+        
+        int j=minutes;
+        int i=0;
+       maxun_satisfy_coust=currUnsat;
+        while(j<n)
+        { // Add the new element entering the window
+            if (grumpy[j] == 1) {
+                currUnsat += customers[j];
             }
 
-            low++;
-            high++;
-        }
-
-        int sum = accumulate(ans.begin(), ans.end(), 0);
-
-        vector<int> newans;
-        int left = 0;
-        int right = 0;
-
-        while (left != grumpy.size() && right != customers.size())
-        {
-            if (grumpy[left] == 0)
-            {
-                newans.push_back(0);
-            }
-            else
-            {
-                newans.push_back(customers[left]);
+            // Remove the old element leaving the window
+            if (grumpy[i] == 1) {
+                currUnsat -= customers[i];
             }
 
-            left++;
-            right++;
-        }
-
-        int sum1 = 0;
-        int i = 0;
-        int j = minutes - 1;
-        int k = 0;
-
-        while (k <= j)
-        {
-            sum1 += newans[k];
-            k++;
-        }
-
-        high = sum1;
-
-        while (j + 1 < newans.size())
-        {
-            j++;
-
-            sum1 += newans[j];
-            sum1 -= newans[i];
+            maxun_satisfy_coust = max(maxun_satisfy_coust, currUnsat);
 
             i++;
-
-            high = max(high, sum1);
+            j++;
         }
-
-        return sum + high;
+        int sum=0;
+        for(int i=0;i<grumpy.size();i++)
+        {
+            if(grumpy[i]==0)
+            {
+                sum+=customers[i];
+            }
+        }
+        return maxun_satisfy_coust+sum;
     }
 };
